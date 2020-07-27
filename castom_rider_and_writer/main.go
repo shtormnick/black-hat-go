@@ -34,7 +34,7 @@ func main() {
 	}
 	fmt.Printf("Read %d bytes from stdin\n", s)
 
-	s,err = write.Write(input)
+	s,err = writer.Write(input)
 	if err != nil {
 		log.Fatal("Unable to write data")
 	}
