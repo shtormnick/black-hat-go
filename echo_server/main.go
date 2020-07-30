@@ -10,23 +10,9 @@ import (
 func echo(conn net.Conn) {
 	defer conn.Close()
 
-	reader := bufio.NewReader(conn)
-	s, err := reader.ReadString('\n')
-	if err == io.EOF {
-		log.Println("Client disconnected")
+	if _, err := io.Copy(conn, conn); err != nil {
+		log.Fatalln("Unable to read/ write data")
 	}
-	if err != nil {
-		log.Println("Unexpected error")
-	}
-	log.Printf("Recived %d bytes: %s\n", len(s), s)
-
-	log.Println("Write data")
-	writer := bufio.NewWriter(conn)
-	if _, err := writer.WriteString(s); err != nil {
-		log.Fatalln("Unable to write data")
-	}
-	writer.Flush()
-
 }
 
 func main() {
