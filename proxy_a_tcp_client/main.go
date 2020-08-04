@@ -1,6 +1,12 @@
 package main
 
-func handle() {
+import (
+	"io"
+	"log"
+	"net"
+)
+
+func handle(src net.Conn) {
 
 	dst, err := net.Dial("tcp", "joescatcam.website:80")
 
