@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -9,14 +10,14 @@ import (
 
 func main() {
 
-	rl, err := http.Get("http://www.goolge.com/robots.txt")
+	rl, err := http.Get("https://www.goolge.com/robots.txt")
 	defer rl.Body.Close()
 
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	r2, err := http.Head("http://www.goolge.com/robots.txt")
+	r2, err := http.Head("https://www.goolge.com/robots.txt")
 	defer r2.Body.Close()
 
 	if err != nil {
@@ -28,7 +29,7 @@ func main() {
 
 	r3, err := http.NewRequest(
 		"PUT",
-		"http://www.goolge.com/robots.txt", 
+		"https://www.goolge.com/robots.txt", 
 		strings.NewReader(form.Encode()),
 	)
 
@@ -43,4 +44,6 @@ func main() {
 	var client http.Client
 
 	resp, err := client.Do(req)
+
+	fmt.Println(resp)
 }
