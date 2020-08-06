@@ -1,27 +1,32 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
+	"encoding/json"
 	"log"
 	"net/http"
 )
+type Status struct {
+	Message string
+	Status string
+}
 
 func main() {
-	resp, err := http.Get("https://www.google.com/robots.txt")
-
+	res, err := http.Post(
+		"http://IP:PORT/ping",
+		"aplication/json",
+		nil,
+	)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	fmt.Println(resp.Status)
+	var status Status 
 
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		log.Panic(err)
+	if err := json.NewDecoder(res.Body).Decode(&status); err != nil {
+		log.Fatalln(err)
 	}
+	
+	defer res.Body.Close()
 
-	fmt.Println(string(body))
-	resp.Body.Close()
+	log.Printf("%s->%s\n", status.Status, status.Message)
 }
