@@ -10,38 +10,8 @@ import (
 )
 
 func main() {
-	r1, err := http.Get("http://www.google.com/robots.txt")
-	defer r1.Body.Close()
 
-	if err != nil {
-		log.Panicln(err)
-	}
-
-	r2, err := http.Head("http://www.google.com/robots.txt")
-	defer r2.Body.Close()
-
-	if err != nil {
-		log.Panicln(err)
-	}
-
-	form := url.Values{}
-	form.Add("Foo", "Bar")
-	req, err := http.NewRequest(
-		"PUT",
-		"https://www.google.com/robots.txt",
-		strings.NewReader(form.Encode()),
-	)
-
-	fmt.Println(req)
-
-	if err != nil {
-		log.Panicln(err)
-	}
-
-	req, err = http.NewRequest("DELETE", "https://www.google.com/robots.txt",
-		nil)
-
-	resp, err := http.Get("https://www.google.com/robots.txt")
+	resp, err := http.Get("http://www.google.com/robots.txt")
 	if err != nil {
 		log.Panicln(err)
 	}
@@ -55,4 +25,41 @@ func main() {
 	fmt.Println(string(body))
 	resp.Body.Close()
 
+	resp, err = http.Head("http://www.google.com/robots.txt")
+	if err != nil {
+		log.Panicln(err)
+	}
+	resp.Body.Close()
+	fmt.Println(resp.Status)
+
+	form := url.Values{}
+	form.Add("Foo", "Bar")
+	resp, err = http.Post(
+		"http://www.google.com/robots.txt",
+		"application/x-www-from-urlencoded",
+		strings.NewReader(form.Encode()),
+	)
+	if err != nil {
+		log.Panicln(err)
+	}
+	resp.Body.Close()
+	fmt.Println(resp.Status)
+
+	req, err := http.NewRequest("DELETE", "http://www.google.com/robots.txt", nil)
+	if err != nil {
+		log.Panicln(err)
+	}
+	
+	var client http.Client
+	resp, err =client.Do(req)
+	resp.Body.Close()
+	fmt.Println(resp.Status)
+
+	req, err = http.NewRequest("PUT", "https://www.google.com/robots.txt", strings.NewReader(form.Encode()))
+	resp, err = client.Do(req)
+	if err != nil {
+		log.Panicln(err)
+	}
+	resp.Body.Close()
+	fmt.Println(resp.Status)
 }
