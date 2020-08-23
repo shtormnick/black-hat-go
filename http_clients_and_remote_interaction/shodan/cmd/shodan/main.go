@@ -9,10 +9,10 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		log.Fatalln("Usage: shodan searchterm")
+		log.Fatalln("Usage: shodan <searchterm>")
 	}
 
-	apiKey := os.Getenv("xYmV28kix0gfTMXlDEVIywTnhICYtGJ9")
+	apiKey := os.Getenv("SHODAN_API_KEY")
 	s := shodan.New(apiKey)
 	info, err := s.APIInfo()
 	if err != nil {
