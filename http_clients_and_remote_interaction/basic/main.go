@@ -49,9 +49,9 @@ func main() {
 	if err != nil {
 		log.Panicln(err)
 	}
-	
+
 	var client http.Client
-	resp, err =client.Do(req)
+	resp, err = client.Do(req)
 	resp.Body.Close()
 	fmt.Println(resp.Status)
 

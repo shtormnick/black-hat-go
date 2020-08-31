@@ -39,7 +39,7 @@ type HostSearch struct {
 }
 
 func (s *Client) HostSearch(q string) (*HostSearch, error) {
-	res, err := http.Get(fmt.Sprintf("%s/shodan/host/search?key=%s&query=s%", BaseURL, s.apiKey, q))
+	res, err := http.Get(fmt.Sprintf("%s/shodan/host/search?key=%s&query=%s", BaseURL, s.apiKey, q))
 	if err != nil {
 		return nil, err
 	}

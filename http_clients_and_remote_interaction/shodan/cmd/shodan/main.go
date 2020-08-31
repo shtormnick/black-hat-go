@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"log"
 	"os"
-	
+
+	"github.com/blackhat-go/bhg/ch-3/shodan/shodan"
 )
 
 func main() {
 	if len(os.Args) != 2 {
-		log.Fatalln("Usage: shodan <searchterm>")
+		log.Fatalln("Usage: main <searchterm>")
 	}
 
 	apiKey := os.Getenv("SHODAN_API_KEY")
@@ -21,7 +22,7 @@ func main() {
 
 	fmt.Printf(
 		"Querry Credits: %d\nScan Credits: %d\n\n",
-		info.QuerryCredits,
+		info.QueryCredits,
 		info.ScanCredits,
 	)
 
