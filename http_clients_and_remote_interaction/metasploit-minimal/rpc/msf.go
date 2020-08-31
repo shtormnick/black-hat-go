@@ -1,3 +1,13 @@
+package rpc
+
+import (
+	"bytes"
+	"fmt"
+	"net/http"
+
+	"gopkg.in/vmihailenco/msgpack.v2"
+)
+
 type sessionListReq struct {
 	_msgpack struct{} `msgpack:",asArray"`
 	Method   string
@@ -46,4 +56,39 @@ type logoutReq struct {
 
 type logoutRes struct {
 	Result string `msgpack:"result"`
+}
+
+type Metasploit struct {
+	host  string
+	user  string
+	pass  string
+	token string
+}
+
+func New(host, user, pass string) *Metasploit {
+	msf := &Metasploit{
+		host: host,
+		user: user,
+		pass: pass,
+	}
+	return msf
+}
+
+func (msf *Metasploit) send(req interface{}, res interface{}) error {
+	
+	buf := new(bytes.Buffer)
+	msgpack.NewEncoder(buf).Encode(req)
+	dest := fmt.Sprintf("http://%s/api", msf.host)
+	r, err := http.Post(dest, "binary.message-pack", buf)
+
+	if err != nil {
+		return err
+	}
+	defer r. body.Close()
+
+	if err := msgpack.NewDecoder(r.Body).Decode(&res); err != nil {
+		return err
+	}
+
+	return nil
 }
