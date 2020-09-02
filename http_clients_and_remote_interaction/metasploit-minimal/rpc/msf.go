@@ -84,12 +84,12 @@ func (msf *Metasploit) send(req interface{}, res interface{}) error {
 	buf := new(bytes.Buffer)
 	msgpack.NewEncoder(buf).Encode(req)
 	dest := fmt.Sprintf("http://%s/api", msf.host)
-	r, err := http.Post(dest, "binary.message-pack", buf)
+	r, err := http.Post(dest, "binary/message-pack", buf)
 
 	if err != nil {
 		return err
 	}
-	defer r.body.Close()
+	defer r.Body.Close()
 
 	if err := msgpack.NewDecoder(r.Body).Decode(&res); err != nil {
 		return err
