@@ -29,6 +29,6 @@ func main() {
 	}
 	fmt.Println("Sessions:")
 	for _, session := range sessions {
-		fmt.Printf("%5d %\n", session.ID, session.Info)
+		fmt.Printf("%5d %s\n", session.ID, session.Info)
 	}
 }
